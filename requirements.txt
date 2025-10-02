@@ -1,14 +1,28 @@
-# Core dependencies
+# Core ASR dependencies
 faster-whisper>=0.10.0
+torch>=2.0.0
+torchaudio>=2.0.0
+
+# Audio processing
 pydub>=0.25.1
 numpy>=1.24.0
 
-# WhisperX (install separately via git)
-# git+https://github.com/m-bain/whisperX.git
+# GUI
+gradio>=4.0.0
 
-# Optional: Acoustic validation
+# WhisperX (install separately after torch)
+# Install with: pip install git+https://github.com/m-bain/whisperX.git
+
+# Optional: Acoustic validation features
 librosa>=0.10.0
+scipy>=1.10.0
 
 # System requirements (not pip-installable):
-# - ffmpeg
+# - ffmpeg (audio format conversion)
+#   Windows: https://www.gyan.dev/ffmpeg/builds/
+#   Linux: apt-get install ffmpeg
+#   macOS: brew install ffmpeg
+#
 # - CUDA toolkit (for GPU acceleration)
+#   https://developer.nvidia.com/cuda-downloads
+#   Required for: torch with CUDA, faster-whisper GPU mode

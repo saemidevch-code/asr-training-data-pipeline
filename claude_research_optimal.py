@@ -555,12 +555,13 @@ def main():
                 log(f"  Segment {kept}: last_word_conf={last_word_conf:.3f}, adaptive_guard={adaptive_guard}ms")
         
         # THEN add phoneme extension (guaranteed to preserve consonant completion)
+        # Only apply to words ≥3 chars (short function words don't need extension)
         last_word_text = keep_words[-1].text.lower()
-        if last_word_text:
+        if last_word_text and len(last_word_text) >= 3:
             extension_ms = 0
             
             # Special handling for -ing words (need more time for /ŋ/)
-            if len(last_word_text) >= 3 and last_word_text[-3:] == 'ing':
+            if last_word_text[-3:] == 'ing':
                 extension_ms = 60
             # Sibilants and fricatives (need more decay time)
             elif last_word_text[-1] in ['s', 'z', 'x', 'f', 'v']:
@@ -572,7 +573,7 @@ def main():
                 ending = last_word_text[-2:]
                 if ending in ['ce', 'se', 'ze', 'ge', 'ch', 'sh', 'th', 'ng']:
                     extension_ms = 50  # ng needs more than single consonants
-            elif len(last_word_text) >= 3 and last_word_text[-3:] in ['dge', 'tch']:
+            elif last_word_text[-3:] in ['dge', 'tch']:
                 extension_ms = 40
             
             if extension_ms > 0:
